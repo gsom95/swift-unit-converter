@@ -12,6 +12,22 @@ public enum ConversionError: Error {
 // Protocol for all unit types
 public protocol UnitConvertible: RawRepresentable, CaseIterable where RawValue == String {
     static func convert(value: Double, from: Self, to: Self) throws -> Double
+    static func transform(_ from: String) throws -> Self
+    static func allUnitsString() -> String
+}
+
+extension UnitConvertible {
+    public static func transform(_ from: String) throws -> Self {
+        guard let unit = Self(rawValue: from) else {
+            throw ConversionError.unsupportedUnit(
+                "Invalid unit: \(from). Valid units: \(Self.allUnitsString())")
+        }
+        return unit
+    }
+
+    public static func allUnitsString() -> String {
+        return Self.allCases.map { $0.rawValue }.joined(separator: ", ")
+    }
 }
 
 // Distance units
@@ -20,14 +36,6 @@ public enum DistanceUnit: String, UnitConvertible {
     case meters = "m"
     case miles = "mi"
     case yards = "yd"
-
-    public static func distanceUnit(_ from: String) throws -> DistanceUnit {
-        guard let unit = DistanceUnit(rawValue: from) else {
-            throw ConversionError.unsupportedUnit(
-                "Invalid unit: \(from). Valid units: \(DistanceUnit.allCases.map { $0.rawValue }.joined(separator: ", "))")
-        }
-        return unit
-    }
 
     public static func convert(value: Double, from: DistanceUnit, to: DistanceUnit) throws -> Double {
         guard from != to else { return value }
