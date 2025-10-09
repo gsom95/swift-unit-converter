@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:swift-unit-converter}",
+            "name": "Debug Convert",
+            "program": "${workspaceFolder:swift-unit-converter}/.build/debug/Convert",
+            "preLaunchTask": "swift: Build Debug Convert"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:swift-unit-converter}",
+            "name": "Release Convert",
+            "program": "${workspaceFolder:swift-unit-converter}/.build/release/Convert",
+            "preLaunchTask": "swift: Build Release Convert"
+        }
+    ]
+}
