@@ -14,16 +14,16 @@ struct Convert: ParsableCommand {
 extension Convert {
     struct Distance: ParsableCommand {
         static let configuration = CommandConfiguration(
-            abstract: "Convert distance units (km, m, mi, yd)"
+            abstract: "Convert distance units (\(DistanceUnit.allUnitsString()))"
         )
 
         @Argument(help: "Value to convert")
         var value: Double
 
-        @Option(name: .shortAndLong, help: "Source unit (km, m, mi, yd)", transform: DistanceUnit.distanceUnit)
+        @Option(name: .shortAndLong, help: "Source unit (\(DistanceUnit.allUnitsString()))", transform: DistanceUnit.transform)
         var from: DistanceUnit
 
-        @Option(name: .shortAndLong, help: "Target unit (km, m, mi, yd)", transform: DistanceUnit.distanceUnit)
+        @Option(name: .shortAndLong, help: "Target unit (\(DistanceUnit.allUnitsString()))", transform: DistanceUnit.transform)
         var to: DistanceUnit
 
         func run() throws {
@@ -40,32 +40,21 @@ extension Convert {
 extension Convert {
     struct Weight: ParsableCommand {
         static let configuration = CommandConfiguration(
-            abstract: "Convert weight units (kg, g, lb, oz)"
+            abstract: "Convert weight units (\(WeightUnit.allUnitsString()))"
         )
 
-        @Option(name: .shortAndLong, help: "Value to convert")
+        @Argument(help: "Value to convert")
         var value: Double
 
-        @Option(name: .shortAndLong, help: "Source unit (kg, g, lb, oz)")
-        var from: String
+        @Option(name: .shortAndLong, help: "Source unit (\(WeightUnit.allUnitsString()))", transform: WeightUnit.transform)
+        var from: WeightUnit
 
-        @Option(name: .shortAndLong, help: "Target unit (kg, g, lb, oz)")
-        var to: String
+        @Option(name: .shortAndLong, help: "Target unit (\(WeightUnit.allUnitsString()))", transform: WeightUnit.transform)
+        var to: WeightUnit
 
         func run() throws {
-            // Parse and validate units
-            guard let fromUnit = WeightUnit(rawValue: from) else {
-                throw ConversionError.unsupportedUnit(
-                    "Invalid source unit: \(from). Valid units: kg, g, lb, oz")
-            }
-
-            guard let toUnit = WeightUnit(rawValue: to) else {
-                throw ConversionError.unsupportedUnit(
-                    "Invalid target unit: \(to). Valid units: kg, g, lb, oz")
-            }
-
             // Perform conversion
-            let result = try WeightUnit.convert(value: value, from: fromUnit, to: toUnit)
+            let result = try WeightUnit.convert(value: value, from: from, to: to)
 
             // Print result
             print("\(value) \(from) = \(result) \(to)")
