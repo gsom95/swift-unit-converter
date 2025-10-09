@@ -21,6 +21,14 @@ public enum DistanceUnit: String, UnitConvertible {
     case miles = "mi"
     case yards = "yd"
 
+    public static func distanceUnit(_ from: String) throws -> DistanceUnit {
+        guard let unit = DistanceUnit(rawValue: from) else {
+            throw ConversionError.unsupportedUnit(
+                "Invalid unit: \(from). Valid units: \(DistanceUnit.allCases.map { $0.rawValue }.joined(separator: ", "))")
+        }
+        return unit
+    }
+
     public static func convert(value: Double, from: DistanceUnit, to: DistanceUnit) throws -> Double {
         guard from != to else { return value }
 
