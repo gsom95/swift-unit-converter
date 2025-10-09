@@ -29,11 +29,13 @@ extension Convert {
         func run() throws {
             // Parse and validate units
             guard let fromUnit = DistanceUnit(rawValue: from) else {
-                throw ConversionError.unsupportedUnit("Invalid source unit: \(from). Valid units: km, m, mi, yd")
+                throw ConversionError.unsupportedUnit(
+                    "Invalid source unit: \(from). Valid units: km, m, mi, yd")
             }
 
             guard let toUnit = DistanceUnit(rawValue: to) else {
-                throw ConversionError.unsupportedUnit("Invalid target unit: \(to). Valid units: km, m, mi, yd")
+                throw ConversionError.unsupportedUnit(
+                    "Invalid target unit: \(to). Valid units: km, m, mi, yd")
             }
 
             // Perform conversion
@@ -64,11 +66,13 @@ extension Convert {
         func run() throws {
             // Parse and validate units
             guard let fromUnit = WeightUnit(rawValue: from) else {
-                throw ConversionError.unsupportedUnit("Invalid source unit: \(from). Valid units: kg, g, lb, oz")
+                throw ConversionError.unsupportedUnit(
+                    "Invalid source unit: \(from). Valid units: kg, g, lb, oz")
             }
 
             guard let toUnit = WeightUnit(rawValue: to) else {
-                throw ConversionError.unsupportedUnit("Invalid target unit: \(to). Valid units: kg, g, lb, oz")
+                throw ConversionError.unsupportedUnit(
+                    "Invalid target unit: \(to). Valid units: kg, g, lb, oz")
             }
 
             // Perform conversion
