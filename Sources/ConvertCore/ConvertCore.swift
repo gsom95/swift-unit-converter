@@ -7,7 +7,6 @@
 
 public enum ConversionError: Error {
     case unsupportedUnit(String)
-    case invalidConversion(from: String, to: String)
 }
 
 // Protocol for all unit types
