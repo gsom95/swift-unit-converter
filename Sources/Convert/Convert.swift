@@ -17,29 +17,18 @@ extension Convert {
             abstract: "Convert distance units (km, m, mi, yd)"
         )
 
-        @Option(name: .shortAndLong, help: "Value to convert")
+        @Argument(help: "Value to convert")
         var value: Double
 
-        @Option(name: .shortAndLong, help: "Source unit (km, m, mi, yd)")
-        var from: String
+        @Option(name: .shortAndLong, help: "Source unit (km, m, mi, yd)", transform: DistanceUnit.distanceUnit)
+        var from: DistanceUnit
 
-        @Option(name: .shortAndLong, help: "Target unit (km, m, mi, yd)")
-        var to: String
+        @Option(name: .shortAndLong, help: "Target unit (km, m, mi, yd)", transform: DistanceUnit.distanceUnit)
+        var to: DistanceUnit
 
         func run() throws {
-            // Parse and validate units
-            guard let fromUnit = DistanceUnit(rawValue: from) else {
-                throw ConversionError.unsupportedUnit(
-                    "Invalid source unit: \(from). Valid units: km, m, mi, yd")
-            }
-
-            guard let toUnit = DistanceUnit(rawValue: to) else {
-                throw ConversionError.unsupportedUnit(
-                    "Invalid target unit: \(to). Valid units: km, m, mi, yd")
-            }
-
             // Perform conversion
-            let result = try DistanceUnit.convert(value: value, from: fromUnit, to: toUnit)
+            let result = try DistanceUnit.convert(value: value, from: from, to: to)
 
             // Print result
             print("\(value) \(from) = \(result) \(to)")
